@@ -1,6 +1,6 @@
 # VOSOF
 
-## Performance on Davis17 val set&Weights
+## Performance on Davis16 val set
 
 | Method           | J&F-Mean | J-Mean | J-Recall | J-Decay | F-Mean | F-Recall | F-Decay |
 |------------------|----------|--------|----------|---------|--------|----------|---------|
