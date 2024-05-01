@@ -2,12 +2,13 @@
 
 ## Performance on Davis17 val set&Weights
 
-|  | backbone |  training stage | training dataset | J&F | J |  F  | weights |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| Ours| resnet-50 |  stage 1 | MS-COCO | 69.5 | 67.8 | 71.2 | [`link`](https://drive.google.com/file/d/1dHiKCOmTGhccG24UJuPYfLl8NcNqN6eC/view?usp=sharing) |
-| Origin | resnet-50 | stage 2 | MS-COCO -> Davis&Youtube-vos | 81.8 | 79.2 | 84.3 | [`link`](https://github.com/seoungwugoh/STM) |
-| Ours| resnet-50 | stage 2 | MS-COCO -> Davis&Youtube-vos | 82.0 | 79.7 | 84.4 | [`link`](https://drive.google.com/file/d/1M8NesOwct00QftL_bc-Nh_Qn7TgoZFX-/view?usp=sharing) |
-| Ours | resnest-101 | stage 2| MS-COCO -> Davis&Youtube-vos | 84.6 | 82.0 | 87.2 | [`link`](https://drive.google.com/file/d/1jQAfCXVSyu2b4DvHeFErCQwP6CKYeJ34/view?usp=sharing)|
+| Method           | J&F-Mean | J-Mean | J-Recall | J-Decay | F-Mean | F-Recall | F-Decay |
+|------------------|----------|--------|----------|---------|--------|----------|---------|
+| Original         | 0.9264   | 0.9263 | 0.9846   | 0.0345  | 0.9265 | 0.9674   | 0.0286  |
+| Argmax           | 0.9134   | 0.9118 | 0.9824   | 0.0331  | 0.9150 | 0.9606   | 0.0268  |
+| Selective Update | 0.8754   | 0.8872 | 0.9773   | 0.0340  | 0.8636 | 0.9610   | 0.0290  |
+| NN Approach      | 0.9215   | 0.9219 | 0.9829   | 0.0341  | 0.9211 | 0.9622   | 0.0255  |
+
 
 
 ## Requirements
