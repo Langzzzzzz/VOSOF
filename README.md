@@ -57,4 +57,10 @@ python eval.py -g 0 -s val -y 16
   pages={9226--9235},
   year={2019}
 }
+@InProceedings{Sun2018PWC-Net,
+  author    = {Deqing Sun and Xiaodong Yang and Ming-Yu Liu and Jan Kautz},
+  title     = {{PWC-Net}: {CNNs} for Optical Flow Using Pyramid, Warping, and Cost Volume},
+  booktitle = CVPR,
+  year      = {2018},
+}
 ```
