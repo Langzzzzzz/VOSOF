@@ -128,11 +128,14 @@ def Run_video(dataset,video, num_frames, num_objects,model,Mem_every=None, Mem_n
             cv2.imwrite('/root/autodl-tmp/code/Training-Code-of-STM/WarpImage/blackswan_img_{}.png'.format(t), cv2.cvtColor(warped_curr_frame_img, cv2.COLOR_RGB2BGR))
         
 
-        # step 3 calculate the photometric loss 
-        l2_photometric_loss_map = ((warped_curr_frame - curr_frame) ** 2).sum(dim=0)
-        max_possible_squared_difference = (1**2) * warped_curr_frame.shape[0]  # Max squared difference for images in [0, 1]
-        normalized_photometric_loss_map = l2_photometric_loss_map / max_possible_squared_difference # photometric loss shape:  torch.Size([480, 854])
+                # step 3 calculate the photometric loss 
+        difference = torch.abs(warped_curr_frame - curr_frame)
+        photometric_loss = torch.mean(difference, dim=0)
+        # sigmoid function
+        normalized_photometric_loss_map = 1 / (1 + torch.exp(-photometric_loss))
         normalized_photometric_loss_map = 1 - normalized_photometric_loss_map
+        normalized_photometric_loss_map *= 2
+
         if video == "goat":
             #save img 
             sns.heatmap(normalized_photometric_loss_map, cmap='inferno')
@@ -151,10 +154,13 @@ def Run_video(dataset,video, num_frames, num_objects,model,Mem_every=None, Mem_n
             plt.savefig('/root/autodl-tmp/code/Training-Code-of-STM/heatmao/blackswan_img_{}.png'.format(t), dpi=300)
             # plt.imsave('/root/autodl-tmp/code/Training-Code-of-STM/heatmao/blackswan_img_{}.png'.format(t), normalized_photometric_loss_map)
             plt.close()
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+   	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
         # get warpped mask of image 2
-        warped_curr_Mask = warp_mask_with_flow(E_last.to(device), torch.from_numpy(OF).permute(2,0,1).to(device)) # torch.Size([1, 11, 480, 854])
+        warped_curr_Mask = warp_image(E_last.squeeze(2).to("cpu"), OF) # torch.Size([1, 11, 480, 854])
+        warped_curr_Mask = warped_curr_Mask.unsqueeze(2) # torch.Size([1, 11, 1, 480, 854])
+	
         # calculate the confidence score of warpped mask 
         confidence_scores = normalized_photometric_loss_map.unsqueeze(0).unsqueeze(0).unsqueeze(0)
         OF_confidence_score = confidence_scores.to(device) * warped_curr_Mask.to(device)
